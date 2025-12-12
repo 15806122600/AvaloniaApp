@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!-- 主题色 -->
+  <color name="splash_background">#0f0c29</color>
+  <color name="colorPrimary">#302b63</color>
+  <color name="colorPrimaryDark">#0f0c29</color>
+  <color name="colorAccent">#f093fb</color>
+  
+  <!-- 状态栏/导航栏 -->
+  <color name="statusBarColor">#0f0c29</color>
+  <color name="navigationBarColor">#0f0c29</color>
+</resources>
+

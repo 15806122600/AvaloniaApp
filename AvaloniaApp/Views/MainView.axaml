@@ -1,0 +1,276 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AvaloniaApp.ViewModels"
+             xmlns:models="using:AvaloniaApp.Models"
+             xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="360" d:DesignHeight="640"
+             x:Class="AvaloniaApp.Views.MainView"
+             x:DataType="vm:MainViewModel">
+  <Design.DataContext>
+    <vm:MainViewModel />
+  </Design.DataContext>
+
+  <dialogHost:DialogHost IsOpen="{Binding IsLogoutDialogOpen}"
+                         CloseOnClickAway="True"
+                         CloseOnClickAwayParameter="False"
+                         DialogMargin="0"
+                         dialogHost:DialogHostStyle.CornerRadius="12">
+    <dialogHost:DialogHost.DialogContent>
+      <!-- 退出确认弹窗 -->
+      <Border Background="White"
+              CornerRadius="12"
+              Padding="24"
+              MinWidth="280"
+              ClipToBounds="True"
+              BoxShadow="0 8 24 0 #40000000">
+        <StackPanel Spacing="20">
+          <TextBlock Text="提示"
+                     FontSize="18"
+                     FontWeight="Bold"
+                     HorizontalAlignment="Center"
+                     Foreground="#333333"/>
+          <TextBlock Text="确定要退出当前账号吗？"
+                     FontSize="16"
+                     HorizontalAlignment="Center"
+                     Foreground="#666666"/>
+          <StackPanel Orientation="Horizontal" Spacing="16" HorizontalAlignment="Center">
+            <Button Command="{Binding CancelLogoutCommand}"
+                    Content="取消"
+                    Width="100"
+                    HorizontalContentAlignment="Center"
+                    Background="#F5F5F5"
+                    Foreground="#666666"/>
+            <Button Command="{Binding ConfirmLogoutCommand}"
+                    Content="确定"
+                    Width="100"
+                    HorizontalContentAlignment="Center"
+                    Background="#3BA3DE"
+                    Foreground="White"/>
+          </StackPanel>
+        </StackPanel>
+      </Border>
+    </dialogHost:DialogHost.DialogContent>
+    
+    <Grid>
+      <!-- 主内容区域 -->
+      <Grid Background="{DynamicResource PageBgBrush}" RowDefinitions="Auto,*">
+      
+      <!-- 顶部标题栏 -->
+      <Border Grid.Row="0" 
+              Background="#3BA3DE"
+              Padding="0,8">
+        <Grid ColumnDefinitions="Auto,*">
+          <!-- 汉堡菜单按钮 -->
+          <Button Grid.Column="0"
+                  Command="{Binding OpenDrawerCommand}"
+                  Background="Transparent"
+                  BorderThickness="0"
+                  Padding="12,8"
+                  VerticalAlignment="Center">
+            <TextBlock Text="☰" FontSize="20" Foreground="White"/>
+          </Button>
+          
+          <!-- 标题 -->
+          <TextBlock Grid.Column="1"
+                     Text="主页"
+                     FontSize="18"
+                     FontWeight="SemiBold"
+                     Foreground="White"
+                     VerticalAlignment="Center"
+                     Margin="4,0,0,0"/>
+        </Grid>
+      </Border>
+
+      <!-- 菜单区域 -->
+      <Grid Grid.Row="1" Margin="8,8">
+        <!-- 加载中提示 -->
+        <Border Background="White"
+                CornerRadius="12"
+                Padding="24"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsVisible="{Binding IsLoading}">
+          <StackPanel Spacing="12" HorizontalAlignment="Center">
+            <TextBlock Text="⏳"
+                       FontSize="32"
+                       HorizontalAlignment="Center"/>
+            <TextBlock Text="正在加载菜单..."
+                       FontSize="14"
+                       Foreground="#666666"
+                       HorizontalAlignment="Center"/>
+          </StackPanel>
+        </Border>
+
+        <!-- 菜单网格 - 固定3列布局，自动缩放 -->
+        <ScrollViewer IsVisible="{Binding !IsLoading}"
+                      HorizontalScrollBarVisibility="Disabled">
+          <ItemsControl ItemsSource="{Binding MenuItems}">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <UniformGrid Columns="3" 
+                             HorizontalAlignment="Stretch" 
+                             VerticalAlignment="Top"/>
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="models:MenuItem">
+                <Button Command="{Binding $parent[ItemsControl].((vm:MainViewModel)DataContext).NavigateToMenuCommand}"
+                        CommandParameter="{Binding}"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Padding="4"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch">
+                  <Border Classes="menu-card"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          MinHeight="100"
+                          Padding="10">
+                    <Grid>
+                      <StackPanel Spacing="8" 
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center">
+                        <!-- 图标容器 -->
+                        <Border Background="White"
+                                BorderBrush="#3BA3DE"
+                                BorderThickness="2"
+                                CornerRadius="8"
+                                Width="44" Height="44"
+                                HorizontalAlignment="Center">
+                          <Rectangle Fill="#3BA3DE" Width="24" Height="24" HorizontalAlignment="Center" VerticalAlignment="Center">
+                              <Rectangle.OpacityMask>
+                                  <ImageBrush Source="avares://AvaloniaApp/Assets/icon_write.png"/>
+                              </Rectangle.OpacityMask>
+                          </Rectangle>
+                        </Border>
+                        <!-- 名称 -->
+                        <TextBlock Text="{Binding Name}"
+                                   FontSize="13"
+                                   Foreground="#333333"
+                                   HorizontalAlignment="Center"
+                                   TextTrimming="CharacterEllipsis"
+                                   TextWrapping="Wrap"
+                                   Height="38"
+                                   LineHeight="18"
+                                   TextAlignment="Center"/>
+                      </StackPanel>
+                    </Grid>
+                  </Border>
+                </Button>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </ScrollViewer>
+      </Grid>
+    </Grid>
+
+    <!-- 侧边抽屉菜单遮罩层 -->
+    <Border Background="#80000000"
+            IsVisible="{Binding IsDrawerOpen}"
+            PointerPressed="OnDrawerOverlayPressed">
+      <Border.Transitions>
+        <Transitions>
+          <DoubleTransition Property="Opacity" Duration="0:0:0.2"/>
+        </Transitions>
+      </Border.Transitions>
+    </Border>
+
+    <!-- 侧边抽屉菜单 -->
+    <Border HorizontalAlignment="Left"
+            Width="260"
+            Background="White"
+            IsVisible="{Binding IsDrawerOpen}">
+      <Border.Transitions>
+        <Transitions>
+          <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.25"/>
+        </Transitions>
+      </Border.Transitions>
+      
+      <Grid RowDefinitions="Auto,*">
+        <!-- 用户信息头部 -->
+        <Border Grid.Row="0" 
+                Background="#3BA3DE"
+                Padding="16,30">
+          <StackPanel Spacing="8">
+            <!-- 头像和用户名 -->
+            <StackPanel Orientation="Horizontal" Spacing="12">
+              <!-- 头像 -->
+              <Border Background="#3BA3DE"
+                      Width="48" Height="48"
+                      CornerRadius="24">
+                <PathIcon Data="M512,0c281.6,0 512,230.4 512,512s-230.4,512 -512,512 -512,-230.4 -512,-512 230.4,-512 512,-512zM627.2,505.6c44.8,-38.4 76.8,-89.6 76.8,-153.6 0,-108.8 -83.2,-192 -192,-192s-192,83.2 -192,192c0,64 32,115.2 76.8,153.6 -102.4,44.8 -172.8,147.2 -172.8,262.4 0,19.2 12.8,32 32,32s32,-12.8 32,-32c0,-121.6 102.4,-224 224,-224s224,102.4 224,224c0,19.2 12.8,32 32,32s32,-12.8 32,-32c0,-115.2 -70.4,-217.6 -172.8,-262.4zM512,480c-70.4,0 -128,-57.6 -128,-128s57.6,-128 128,-128 128,57.6 128,128 -57.6,128 -128,128z"
+                          Width="48" Height="48"
+                          Foreground="#FFFFFF"/>
+              </Border>
+              <!-- 用户名 -->
+              <TextBlock Text="admin"
+                         FontSize="18"
+                         FontWeight="SemiBold"
+                         Foreground="White"
+                         VerticalAlignment="Center"/>
+            </StackPanel>
+            
+            <!-- 客户信息 -->
+            <TextBlock Text="当前客户：悠扬纺织云平台"
+                       FontSize="13"
+                       Foreground="#E0FFFFFF"
+                       Margin="4,4,0,0"/>
+          </StackPanel>
+        </Border>
+
+        <!-- 菜单项 -->
+        <StackPanel Grid.Row="1" Margin="0,12">
+          <!-- 主页 -->
+          <Button Classes="drawer-item"
+                  Command="{Binding GoHomeCommand}">
+            <StackPanel Orientation="Horizontal" Spacing="16">
+              <PathIcon Data="M16,6l2.29,2.29 -4.88,4.88 -4,-4L2,16.59 3.41,18l6,-6 4,4 6.3,-6.29L22,12V6z"
+                        Width="20" Height="20"
+                        Foreground="#3BA3DE"/>
+              <TextBlock Text="主页" FontSize="15" VerticalAlignment="Center"/>
+            </StackPanel>
+          </Button>
+          
+          <!-- 设置 -->
+          <Button Classes="drawer-item"
+                  Command="{Binding GoSettingsCommand}">
+            <StackPanel Orientation="Horizontal" Spacing="16">
+              <PathIcon Data="M19.43,12.98c0.04,-0.32 0.07,-0.64 0.07,-0.98s-0.03,-0.66 -0.07,-0.98l2.11,-1.65c0.19,-0.15 0.24,-0.42 0.12,-0.64l-2,-3.46c-0.12,-0.22 -0.39,-0.3 -0.61,-0.22l-2.49,1c-0.52,-0.4 -1.08,-0.73 -1.69,-0.98l-0.38,-2.65C14.46,2.18 14.25,2 14,2h-4c-0.25,0 -0.46,0.18 -0.49,0.42l-0.38,2.65c-0.61,0.25 -1.17,0.59 -1.69,0.98l-2.49,-1c-0.23,-0.09 -0.49,0 -0.61,0.22l-2,3.46c-0.13,0.22 -0.07,0.49 0.12,0.64l2.11,1.65c-0.04,0.32 -0.07,0.65 -0.07,0.98s0.03,0.66 0.07,0.98l-2.11,1.65c-0.19,0.15 -0.24,0.42 -0.12,0.64l2,3.46c0.12,0.22 0.39,0.3 0.61,0.22l2.49,-1c0.52,0.4 1.08,0.73 1.69,0.98l0.38,2.65c0.03,0.24 0.24,0.42 0.49,0.42h4c0.25,0 0.46,-0.18 0.49,-0.42l0.38,-2.65c0.61,-0.25 1.17,-0.59 1.69,-0.98l2.49,1c0.23,0.09 0.49,0 0.61,-0.22l2,-3.46c0.12,-0.22 0.07,-0.49 -0.12,-0.64l-2.11,-1.65zM12,15.5c-1.93,0 -3.5,-1.57 -3.5,-3.5s1.57,-3.5 3.5,-3.5 3.5,1.57 3.5,3.5 -1.57,3.5 -3.5,3.5z"
+                        Width="20" Height="20"
+                        Foreground="#3BA3DE"/>
+              <TextBlock Text="设置" FontSize="15" VerticalAlignment="Center"/>
+            </StackPanel>
+          </Button>
+          
+          <!-- 关于 -->
+          <Button Classes="drawer-item"
+                  Command="{Binding GoAboutCommand}">
+            <StackPanel Orientation="Horizontal" Spacing="16">
+              <PathIcon Data="M11,17h2v-6h-2v6zM12,2C6.48,2 2,6.48 2,12s4.48,10 10,10 10,-4.48 10,-10S17.52,2 12,2zM12,20c-4.41,0 -8,-3.59 -8,-8s3.59,-8 8,-8 8,3.59 8,8 -3.59,8 -8,8zM11,9h2L13,7h-2v2z"
+                        Width="20" Height="20"
+                        Foreground="#3BA3DE"/>
+              <TextBlock Text="关于" FontSize="15" VerticalAlignment="Center"/>
+            </StackPanel>
+          </Button>
+          
+          <!-- 分隔线 -->
+          <Border Height="1" Background="#EEEEEE" Margin="16,8"/>
+          
+          <!-- 退出 -->
+          <Button Classes="drawer-item"
+                  Command="{Binding LogoutCommand}">
+            <StackPanel Orientation="Horizontal" Spacing="16">
+              <PathIcon Data="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                        Width="20" Height="20"
+                        Foreground="#3BA3DE"/>
+              <TextBlock Text="退出" FontSize="15" VerticalAlignment="Center"/>
+            </StackPanel>
+          </Button>
+        </StackPanel>
+      </Grid>
+    </Border>
+    </Grid>
+  </dialogHost:DialogHost>
+</UserControl>

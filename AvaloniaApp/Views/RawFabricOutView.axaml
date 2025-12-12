@@ -1,0 +1,286 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AvaloniaApp.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="360" d:DesignHeight="640"
+             x:Class="AvaloniaApp.Views.RawFabricOutView"
+             x:DataType="vm:RawFabricOutViewModel">
+  <Design.DataContext>
+    <vm:RawFabricOutViewModel />
+  </Design.DataContext>
+
+  <Grid Background="{DynamicResource PageBgBrush}" RowDefinitions="Auto,*,Auto">
+    <!-- 顶部标题栏 -->
+    <Border Grid.Row="0" 
+            Background="#3BA3DE"
+            Padding="0,8">
+      <Grid ColumnDefinitions="Auto,*,Auto">
+        <!-- 返回按钮 -->
+        <Button Grid.Column="0"
+                Command="{Binding GoBackCommand}"
+                Background="Transparent"
+                BorderThickness="0"
+                Padding="12,8"
+                VerticalAlignment="Center">
+          <TextBlock Text="‹" FontSize="24" Foreground="White"/>
+        </Button>
+        
+        <!-- 标题 -->
+        <TextBlock Grid.Column="1"
+                   Text="白坯出库"
+                   FontSize="18"
+                   FontWeight="SemiBold"
+                   Foreground="White"
+                   VerticalAlignment="Center"
+                   Margin="4,0,0,0"/>
+        
+        <!-- 右侧工具按钮 -->
+        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8" Margin="0,0,8,0">
+          <Button Background="Transparent" BorderThickness="0" Padding="8">
+            <TextBlock Text="📷" FontSize="18" Foreground="White"/>
+          </Button>
+          <Button Background="Transparent" BorderThickness="0" Padding="8">
+            <TextBlock Text="📊" FontSize="18" Foreground="White"/>
+          </Button>
+          <Button Background="Transparent" BorderThickness="0" Padding="8">
+            <TextBlock Text="🔄" FontSize="18" Foreground="White"/>
+          </Button>
+          <Button Background="Transparent" BorderThickness="0" Padding="8">
+            <TextBlock Text="⋮" FontSize="18" Foreground="White"/>
+          </Button>
+        </StackPanel>
+      </Grid>
+    </Border>
+
+    <!-- 表单区域 -->
+    <ScrollViewer Grid.Row="1">
+      <StackPanel Margin="12,8" Spacing="0">
+        <!-- 出库日期 -->
+        <Grid ColumnDefinitions="80,*,Auto" Margin="0,4">
+          <TextBlock Grid.Column="0" Text="出库日期" Foreground="#3BA3DE" FontSize="13" VerticalAlignment="Center"/>
+          <TextBox Grid.Column="1" 
+                   Text="{Binding OutDate}"
+                   Watermark="请选择出库日期"
+                   Background="White"
+                   BorderBrush="#DDDDDD"
+                   Padding="8,6"
+                   FontSize="13"
+                   CornerRadius="4"/>
+          <Button Grid.Column="2" 
+                  Background="White"
+                  BorderBrush="#DDDDDD"
+                  CornerRadius="4"
+                  Padding="8,6"
+                  Margin="4,0,0,0">
+            <TextBlock Text="切换扫描" FontSize="12" Foreground="#333333"/>
+          </Button>
+        </Grid>
+        
+        <!-- 出库类别 -->
+        <Grid ColumnDefinitions="80,*,Auto" Margin="0,4">
+          <TextBlock Grid.Column="0" Text="出库类别" Foreground="#3BA3DE" FontSize="13" VerticalAlignment="Center"/>
+          <Border Grid.Column="1" Background="White" BorderBrush="#DDDDDD" BorderThickness="1" CornerRadius="4" Padding="8,6">
+            <TextBlock Text="请选择出库类别" Foreground="#999999" FontSize="13"/>
+          </Border>
+          <TextBlock Grid.Column="2" Text="扫描模式" Foreground="#333333" FontSize="12" VerticalAlignment="Center" Margin="8,0,0,0"/>
+        </Grid>
+        
+        <!-- 客户 -->
+        <Grid ColumnDefinitions="80,*,Auto,Auto" Margin="0,4">
+          <TextBlock Grid.Column="0" Text="客户" Foreground="#3BA3DE" FontSize="13" VerticalAlignment="Center"/>
+          <TextBox Grid.Column="1" 
+                   Text="{Binding Customer}"
+                   Watermark="请选择客户"
+                   Background="White"
+                   BorderBrush="#DDDDDD"
+                   Padding="8,6"
+                   FontSize="13"
+                   CornerRadius="4"/>
+          <Button Grid.Column="2" 
+                  Command="{Binding SelectCustomerCommand}"
+                  Background="White"
+                  BorderBrush="#3BA3DE"
+                  CornerRadius="4"
+                  Padding="8,6"
+                  Margin="4,0,0,0">
+            <TextBlock Text="选择" FontSize="12" Foreground="#3BA3DE"/>
+          </Button>
+          <Button Grid.Column="3" 
+                  Command="{Binding AddCustomerCommand}"
+                  Background="White"
+                  BorderBrush="#3BA3DE"
+                  CornerRadius="4"
+                  Padding="8,6"
+                  Margin="4,0,0,0">
+            <TextBlock Text="添加" FontSize="12" Foreground="#3BA3DE"/>
+          </Button>
+        </Grid>
+        
+        <!-- 客户订单 -->
+        <Grid ColumnDefinitions="80,*,Auto" Margin="0,4">
+          <TextBlock Grid.Column="0" Text="客户订单" Foreground="#3BA3DE" FontSize="13" VerticalAlignment="Center"/>
+          <TextBox Grid.Column="1" 
+                   Text="{Binding CustomerOrder}"
+                   Watermark="请选择客户订单"
+                   Background="White"
+                   BorderBrush="#DDDDDD"
+                   Padding="8,6"
+                   FontSize="13"
+                   CornerRadius="4"/>
+          <Button Grid.Column="2" 
+                  Background="White"
+                  BorderBrush="#3BA3DE"
+                  CornerRadius="4"
+                  Padding="8,6"
+                  Margin="4,0,0,0">
+            <TextBlock Text="选择" FontSize="12" Foreground="#3BA3DE"/>
+          </Button>
+        </Grid>
+        
+        <!-- 收货方 -->
+        <Grid ColumnDefinitions="80,*,Auto" Margin="0,4">
+          <TextBlock Grid.Column="0" Text="收货方" Foreground="#3BA3DE" FontSize="13" VerticalAlignment="Center"/>
+          <TextBox Grid.Column="1" 
+                   Text="{Binding Receiver}"
+                   Watermark="请选择收货方"
+                   Background="White"
+                   BorderBrush="#DDDDDD"
+                   Padding="8,6"
+                   FontSize="13"
+                   CornerRadius="4"/>
+          <Button Grid.Column="2" 
+                  Background="White"
+                  BorderBrush="#3BA3DE"
+                  CornerRadius="4"
+                  Padding="8,6"
+                  Margin="4,0,0,0">
+            <TextBlock Text="选择" FontSize="12" Foreground="#3BA3DE"/>
+          </Button>
+        </Grid>
+        
+        <!-- 货车信息 -->
+        <Grid ColumnDefinitions="80,*,Auto" Margin="0,4">
+          <TextBlock Grid.Column="0" Text="货车信息" Foreground="#3BA3DE" FontSize="13" VerticalAlignment="Center"/>
+          <TextBox Grid.Column="1" 
+                   Text="{Binding TruckInfo}"
+                   Watermark="请选择货车信息"
+                   Background="White"
+                   BorderBrush="#DDDDDD"
+                   Padding="8,6"
+                   FontSize="13"
+                   CornerRadius="4"/>
+          <Button Grid.Column="2" 
+                  Background="White"
+                  BorderBrush="#3BA3DE"
+                  CornerRadius="4"
+                  Padding="8,6"
+                  Margin="4,0,0,0">
+            <TextBlock Text="选择" FontSize="12" Foreground="#3BA3DE"/>
+          </Button>
+        </Grid>
+        
+        <!-- 总匹数 -->
+        <Grid ColumnDefinitions="80,*,Auto" Margin="0,4">
+          <TextBlock Grid.Column="0" Text="总匹数" Foreground="#3BA3DE" FontSize="13" VerticalAlignment="Center"/>
+          <TextBox Grid.Column="1" 
+                   Text="{Binding TotalCount}"
+                   Background="White"
+                   BorderBrush="#DDDDDD"
+                   Padding="8,6"
+                   FontSize="13"
+                   CornerRadius="4"
+                   IsReadOnly="True"/>
+          <Button Grid.Column="2" 
+                  Background="White"
+                  BorderBrush="#3BA3DE"
+                  CornerRadius="4"
+                  Padding="8,6"
+                  Margin="4,0,0,0">
+            <TextBlock Text="选通知单" FontSize="12" Foreground="#3BA3DE"/>
+          </Button>
+        </Grid>
+        
+        <!-- 总重量 -->
+        <Grid ColumnDefinitions="80,*,Auto" Margin="0,4">
+          <TextBlock Grid.Column="0" Text="总重量" Foreground="#3BA3DE" FontSize="13" VerticalAlignment="Center"/>
+          <TextBox Grid.Column="1" 
+                   Text="{Binding TotalWeight}"
+                   Background="White"
+                   BorderBrush="#DDDDDD"
+                   Padding="8,6"
+                   FontSize="13"
+                   CornerRadius="4"
+                   IsReadOnly="True"/>
+          <Button Grid.Column="2" 
+                  Background="White"
+                  BorderBrush="#3BA3DE"
+                  CornerRadius="4"
+                  Padding="8,6"
+                  Margin="4,0,0,0">
+            <TextBlock Text="清空通知单" FontSize="12" Foreground="#3BA3DE"/>
+          </Button>
+        </Grid>
+        
+        <!-- 备注 -->
+        <Grid ColumnDefinitions="80,*" Margin="0,4">
+          <TextBlock Grid.Column="0" Text="备注" Foreground="#3BA3DE" FontSize="13" VerticalAlignment="Center"/>
+          <TextBox Grid.Column="1" 
+                   Text="{Binding Remarks}"
+                   Watermark="备注"
+                   Background="White"
+                   BorderBrush="#DDDDDD"
+                   Padding="8,6"
+                   FontSize="13"
+                   CornerRadius="4"/>
+        </Grid>
+        
+        <!-- 出库信息标题 -->
+        <TextBlock Text="出库信息" 
+                   FontSize="14" 
+                   Foreground="#333333"
+                   HorizontalAlignment="Center"
+                   Margin="0,16,0,8"/>
+        
+        <!-- 出库信息列表区域（空白占位） -->
+        <Border Background="White" 
+                CornerRadius="8" 
+                MinHeight="100"
+                BorderBrush="#DDDDDD"
+                BorderThickness="1">
+          <TextBlock Text="暂无出库信息"
+                     Foreground="#999999"
+                     FontSize="13"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center"/>
+        </Border>
+      </StackPanel>
+    </ScrollViewer>
+
+    <!-- 底部按钮 -->
+    <Grid Grid.Row="2" ColumnDefinitions="*,*" Margin="12,8">
+      <Button Grid.Column="0" 
+              Command="{Binding AddNewCommand}"
+              HorizontalAlignment="Stretch"
+              HorizontalContentAlignment="Center"
+              Background="#3BA3DE"
+              Foreground="White"
+              CornerRadius="6"
+              Padding="0,12"
+              Margin="0,0,4,0">
+        <TextBlock Text="新增出库" FontSize="14" FontWeight="SemiBold"/>
+      </Button>
+      <Button Grid.Column="1" 
+              Command="{Binding SaveCommand}"
+              HorizontalAlignment="Stretch"
+              HorizontalContentAlignment="Center"
+              Background="#3BA3DE"
+              Foreground="White"
+              CornerRadius="6"
+              Padding="0,12"
+              Margin="4,0,0,0">
+        <TextBlock Text="保存出库单" FontSize="14" FontWeight="SemiBold"/>
+      </Button>
+    </Grid>
+  </Grid>
+</UserControl>

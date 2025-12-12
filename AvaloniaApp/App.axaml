@@ -1,0 +1,145 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:AvaloniaApp"
+             xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+             x:Class="AvaloniaApp.App"
+             RequestedThemeVariant="Light">
+
+    <!-- 全局主题资源 - 蓝色主题 -->
+    <Application.Resources>
+        <ResourceDictionary>
+            <!-- 主色调 -->
+            <Color x:Key="PrimaryBlue">#3BA3DE</Color>
+            <Color x:Key="PrimaryBlueDark">#2B8BC4</Color>
+            <Color x:Key="PrimaryBlueLight">#5BB8E8</Color>
+            
+            <!-- 渐变画刷 -->
+            <LinearGradientBrush x:Key="PrimaryBgGradient" StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="#3BA3DE" Offset="0"/>
+                <GradientStop Color="#2B8BC4" Offset="1"/>
+            </LinearGradientBrush>
+            
+            <LinearGradientBrush x:Key="HeaderGradient" StartPoint="0%,0%" EndPoint="0%,100%">
+                <GradientStop Color="#3BA3DE" Offset="0"/>
+                <GradientStop Color="#2B8BC4" Offset="1"/>
+            </LinearGradientBrush>
+            
+            <LinearGradientBrush x:Key="AccentGradient" StartPoint="0%,0%" EndPoint="100%,0%">
+                <GradientStop Color="#3BA3DE" Offset="0"/>
+                <GradientStop Color="#5BB8E8" Offset="1"/>
+            </LinearGradientBrush>
+
+            <!-- 纯色画刷 -->
+            <SolidColorBrush x:Key="PageBgBrush" Color="#F5F5F5"/>
+            <SolidColorBrush x:Key="CardBgBrush" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="CardBgHoverBrush" Color="#F0F8FF"/>
+            <SolidColorBrush x:Key="HeaderBgBrush" Color="#3BA3DE"/>
+            <SolidColorBrush x:Key="InputBgBrush" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="InputBorderBrush" Color="#DDDDDD"/>
+            <SolidColorBrush x:Key="InputBorderFocusBrush" Color="#3BA3DE"/>
+            <SolidColorBrush x:Key="TextPrimaryBrush" Color="#333333"/>
+            <SolidColorBrush x:Key="TextSecondaryBrush" Color="#666666"/>
+            <SolidColorBrush x:Key="TextMutedBrush" Color="#999999"/>
+            <SolidColorBrush x:Key="TextWhiteBrush" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="AccentBrush" Color="#3BA3DE"/>
+            <SolidColorBrush x:Key="ErrorBrush" Color="#ff6b6b"/>
+            <SolidColorBrush x:Key="DividerBrush" Color="#EEEEEE"/>
+            
+            <!-- 侧边菜单 -->
+            <SolidColorBrush x:Key="DrawerBgBrush" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="DrawerHeaderBgBrush" Color="#3BA3DE"/>
+            <SolidColorBrush x:Key="DrawerItemHoverBrush" Color="#F0F8FF"/>
+        </ResourceDictionary>
+    </Application.Resources>
+
+    <Application.DataTemplates>
+        <local:ViewLocator/>
+    </Application.DataTemplates>
+
+    <Application.Styles>
+        <FluentTheme />
+        <!-- DialogHost 样式 -->
+        <dialogHost:DialogHostStyles />
+        
+        <!-- 主按钮样式 - 蓝色 -->
+        <Style Selector="Button.accent">
+            <Setter Property="Background" Value="{StaticResource AccentGradient}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="20,12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+        
+        <Style Selector="Button.accent:pointerover">
+            <Setter Property="Background" Value="{StaticResource HeaderGradient}"/>
+        </Style>
+        
+        <Style Selector="Button.secondary">
+            <Setter Property="Background" Value="{StaticResource CardBgBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{StaticResource InputBorderBrush}"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="16,10"/>
+        </Style>
+        
+        <Style Selector="Button.secondary:pointerover">
+            <Setter Property="Background" Value="{StaticResource CardBgHoverBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+        </Style>
+        
+        <!-- 菜单卡片样式 -->
+        <Style Selector="Border.menu-card">
+            <Setter Property="Background" Value="{StaticResource CardBgBrush}"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="{StaticResource DividerBrush}"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        
+        <Style Selector="Border.menu-card:pointerover">
+            <Setter Property="Background" Value="{StaticResource CardBgHoverBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+        </Style>
+        
+        <!-- 通用卡片样式 -->
+        <Style Selector="Border.card">
+            <Setter Property="Background" Value="{StaticResource CardBgBrush}"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BoxShadow" Value="0 2 8 0 #20000000"/>
+            <Setter Property="Padding" Value="24"/>
+        </Style>
+        
+        <!-- 输入框样式 -->
+        <Style Selector="TextBox.form-input">
+            <Setter Property="Background" Value="{StaticResource InputBgBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource InputBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="Padding" Value="12,10"/>
+        </Style>
+        
+        <Style Selector="TextBox.form-input:focus /template/ Border#PART_BorderElement">
+            <Setter Property="BorderBrush" Value="{StaticResource InputBorderFocusBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+        
+        <!-- 侧边菜单项样式 -->
+        <Style Selector="Button.drawer-item">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="16,12"/>
+        </Style>
+        
+        <Style Selector="Button.drawer-item:pointerover">
+            <Setter Property="Background" Value="{StaticResource DrawerItemHoverBrush}"/>
+        </Style>
+    </Application.Styles>
+</Application>

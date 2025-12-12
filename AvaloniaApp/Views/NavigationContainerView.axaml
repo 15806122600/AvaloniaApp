@@ -1,0 +1,42 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AvaloniaApp.ViewModels"
+             xmlns:views="using:AvaloniaApp.Views"
+             xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="600"
+             x:Class="AvaloniaApp.Views.NavigationContainerView"
+             x:DataType="vm:MainWindowViewModel">
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+  
+  <UserControl.DataTemplates>
+    <!-- 登录视图模板 -->
+    <DataTemplate DataType="vm:LoginViewModel">
+      <views:LoginView />
+    </DataTemplate>
+    <!-- 主视图模板 -->
+    <DataTemplate DataType="vm:MainViewModel">
+      <views:MainView />
+    </DataTemplate>
+    <!-- 设置视图模板 -->
+    <DataTemplate DataType="vm:SettingsViewModel">
+      <views:SettingsView />
+    </DataTemplate>
+    <!-- 关于视图模板 -->
+    <DataTemplate DataType="vm:AboutViewModel">
+      <views:AboutView />
+    </DataTemplate>
+    <!-- 白坯出库视图模板 -->
+    <DataTemplate DataType="vm:RawFabricOutViewModel">
+      <views:RawFabricOutView />
+    </DataTemplate>
+  </UserControl.DataTemplates>
+  
+  <!-- DialogHost 包裹内容区域 (用于 Android/iOS/Browser) -->
+  <dialogHost:DialogHost Identifier="MainDialogHost" CloseOnClickAway="True">
+    <ContentControl Content="{Binding CurrentViewModel}"/>
+  </dialogHost:DialogHost>
+</UserControl>

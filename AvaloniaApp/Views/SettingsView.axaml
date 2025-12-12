@@ -1,0 +1,96 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AvaloniaApp.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="360" d:DesignHeight="640"
+             x:Class="AvaloniaApp.Views.SettingsView"
+             x:DataType="vm:SettingsViewModel">
+  <Design.DataContext>
+    <vm:SettingsViewModel />
+  </Design.DataContext>
+
+  <Grid Background="{DynamicResource PageBgBrush}" RowDefinitions="Auto,*">
+    <!-- 顶部标题栏 -->
+    <Border Grid.Row="0" 
+            Background="#3BA3DE"
+            Padding="0,8">
+      <Grid ColumnDefinitions="Auto,*">
+        <!-- 返回按钮 -->
+        <Button Grid.Column="0"
+                Command="{Binding GoBackCommand}"
+                Background="Transparent"
+                BorderThickness="0"
+                Padding="12,8"
+                VerticalAlignment="Center">
+          <TextBlock Text="‹" FontSize="24" Foreground="White"/>
+        </Button>
+        
+        <!-- 标题 -->
+        <TextBlock Grid.Column="1"
+                   Text="设置"
+                   FontSize="18"
+                   FontWeight="SemiBold"
+                   Foreground="White"
+                   VerticalAlignment="Center"
+                   Margin="4,0,0,0"/>
+      </Grid>
+    </Border>
+
+    <!-- 内容区域 -->
+    <ScrollViewer Grid.Row="1" Margin="16,16">
+      <StackPanel Spacing="12">
+        <!-- 设置项 -->
+        <Border Background="White" CornerRadius="8" Padding="16">
+          <StackPanel Spacing="16">
+            <TextBlock Text="通用设置" FontSize="14" FontWeight="SemiBold" Foreground="#333333"/>
+            <Border Height="1" Background="#EEEEEE"/>
+            
+            <Grid ColumnDefinitions="*,Auto">
+              <TextBlock Grid.Column="0" Text="自动同步" Foreground="#333333" VerticalAlignment="Center"/>
+              <ToggleSwitch Grid.Column="1"/>
+            </Grid>
+            
+            <Grid ColumnDefinitions="*,Auto">
+              <TextBlock Grid.Column="0" Text="声音提示" Foreground="#333333" VerticalAlignment="Center"/>
+              <ToggleSwitch Grid.Column="1" IsChecked="True"/>
+            </Grid>
+            
+            <Grid ColumnDefinitions="*,Auto">
+              <TextBlock Grid.Column="0" Text="震动反馈" Foreground="#333333" VerticalAlignment="Center"/>
+              <ToggleSwitch Grid.Column="1" IsChecked="True"/>
+            </Grid>
+          </StackPanel>
+        </Border>
+        
+        <Border Background="White" CornerRadius="8" Padding="16">
+          <StackPanel Spacing="16">
+            <TextBlock Text="扫描设置" FontSize="14" FontWeight="SemiBold" Foreground="#333333"/>
+            <Border Height="1" Background="#EEEEEE"/>
+            
+            <Grid ColumnDefinitions="*,Auto">
+              <TextBlock Grid.Column="0" Text="连续扫描" Foreground="#333333" VerticalAlignment="Center"/>
+              <ToggleSwitch Grid.Column="1"/>
+            </Grid>
+            
+            <Grid ColumnDefinitions="*,Auto">
+              <TextBlock Grid.Column="0" Text="扫描确认" Foreground="#333333" VerticalAlignment="Center"/>
+              <ToggleSwitch Grid.Column="1" IsChecked="True"/>
+            </Grid>
+          </StackPanel>
+        </Border>
+        
+        <Border Background="White" CornerRadius="8" Padding="16">
+          <StackPanel Spacing="12">
+            <TextBlock Text="服务器地址" FontSize="14" FontWeight="SemiBold" Foreground="#333333"/>
+            <TextBox Watermark="请输入服务器地址"
+                     Background="White"
+                     BorderBrush="#DDDDDD"
+                     Padding="12,10"
+                     CornerRadius="4"/>
+          </StackPanel>
+        </Border>
+      </StackPanel>
+    </ScrollViewer>
+  </Grid>
+</UserControl>

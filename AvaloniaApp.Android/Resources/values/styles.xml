@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+
+  <style name="MyTheme">
+  </style>
+
+  <style name="MyTheme.NoActionBar" parent="@style/Theme.AppCompat.DayNight.NoActionBar">
+    <item name="android:windowActionBar">false</item>
+    <item name="android:windowBackground">@drawable/splash_screen</item>
+    <item name="android:windowNoTitle">true</item>
+    
+    <!-- 状态栏 - 沉浸式深色 -->
+    <item name="android:statusBarColor">@color/statusBarColor</item>
+    <item name="android:windowLightStatusBar">false</item>
+    
+    <!-- 导航栏 - 深色匹配 -->
+    <item name="android:navigationBarColor">@color/navigationBarColor</item>
+    <item name="android:windowLightNavigationBar">false</item>
+    
+    <!-- 主题色 -->
+    <item name="colorPrimary">@color/colorPrimary</item>
+    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    <item name="colorAccent">@color/colorAccent</item>
+  </style>
+</resources>
+

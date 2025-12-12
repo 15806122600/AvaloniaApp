@@ -1,0 +1,222 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AvaloniaApp.ViewModels"
+             xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="360" d:DesignHeight="640"
+             x:Class="AvaloniaApp.Views.LoginView"
+             x:DataType="vm:LoginViewModel">
+  
+  <Design.DataContext>
+    <vm:LoginViewModel />
+  </Design.DataContext>
+
+  <UserControl.Styles>
+    <Style Selector="TextBox">
+      <Setter Property="CaretBrush" Value="#3BA3DE"/>
+    </Style>
+    <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+      <Setter Property="BorderBrush" Value="#3BA3DE"/>
+      <Setter Property="BorderThickness" Value="1"/>
+    </Style>
+  </UserControl.Styles>
+
+  <!-- DialogHost 包裹登录界面内容 -->
+  <dialogHost:DialogHost IsOpen="{Binding IsErrorDialogOpen}" 
+                          CloseOnClickAway="True"
+                          CloseOnClickAwayParameter="False"
+                          DialogMargin="0"
+                          dialogHost:DialogHostStyle.CornerRadius="12">
+    <!-- 弹窗内容 -->
+    <dialogHost:DialogHost.DialogContent>
+      <Border Background="White"
+              CornerRadius="12"
+              Padding="24,20"
+              MinWidth="280"
+              ClipToBounds="True"
+              BoxShadow="0 8 24 0 #40000000">
+        <StackPanel Spacing="16">
+          <!-- 标题 -->
+          <StackPanel Orientation="Horizontal" 
+                      Spacing="10" 
+                      HorizontalAlignment="Center">
+            <TextBlock Text="⚠️" FontSize="24" VerticalAlignment="Center"/>
+            <TextBlock Text="提示" 
+                       FontSize="18" 
+                       FontWeight="Bold" 
+                       Foreground="#333333"
+                       VerticalAlignment="Center"/>
+          </StackPanel>
+          <!-- 错误信息 -->
+          <TextBlock Text="{Binding ErrorMessage}"
+                     FontSize="14"
+                     Foreground="#666666"
+                     TextWrapping="Wrap"
+                     HorizontalAlignment="Center"
+                     TextAlignment="Center"/>
+          <!-- 确定按钮 -->
+          <Button Command="{Binding CloseErrorDialogCommand}"
+                  HorizontalAlignment="Stretch"
+                  HorizontalContentAlignment="Center"
+                  Padding="16,10"
+                  CornerRadius="6"
+                  Foreground="White"
+                  Background="#3BA3DE">
+            <TextBlock Text="确定" FontWeight="SemiBold"/>
+          </Button>
+        </StackPanel>
+      </Border>
+    </dialogHost:DialogHost.DialogContent>
+    
+    <!-- 登录界面主体 -->
+      <Grid x:Name="MainGrid" RowDefinitions="75*,62*,Auto">
+        
+      <!-- 背景图片 (包含Logo和科技风格背景) - 覆盖顶部区域 -->
+      <Image Grid.RowSpan="3"
+             Source="avares://AvaloniaApp/Assets/login_bg.png"
+             Stretch="UniformToFill"
+             VerticalAlignment="Top"/>
+      
+      <!-- 返回按钮 -->
+      <Button Grid.Row="0"
+              Command="{Binding ExitCommand}"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Top"
+              Margin="8,8,0,0"
+              Background="Transparent"
+              BorderThickness="0"
+              Padding="8">
+        <TextBlock Text="‹" FontSize="28" Foreground="White"/>
+      </Button>
+
+      <!-- 表单区域 - 放在中间区域，顶部留出Logo空间 -->
+      <StackPanel Grid.Row="1" 
+                  Spacing="12" 
+                  Margin="24,0,24,20"
+                  VerticalAlignment="Top">
+        
+        <!-- 用户名输入 -->
+        <Border Background="White" 
+                CornerRadius="4" 
+                BorderBrush="#DDDDDD" 
+                BorderThickness="1"
+                Padding="0">
+          <Grid ColumnDefinitions="Auto,*">
+            <Border Grid.Column="0" 
+                    Width="44" 
+                    Background="#F8F8F8"
+                    CornerRadius="4,0,0,4"
+                    Padding="10">
+              <!-- 用户图标 (从 ic_phone.xml 转换) -->
+              <Viewbox Width="24" Height="24">
+                <Canvas Width="1024" Height="1024">
+                  <Path Fill="#999999"
+                        Data="M640,542.72c76.8,-44.8 128,-128 128,-217.6 0,-140.8 -115.2,-256 -256,-256s-256,108.8 -256,249.6c0,96 51.2,172.8 128,217.6 -166.4,51.2 -281.6,204.8 -288,384 0,25.6 12.8,38.4 32,38.4s32,-12.8 32,-32c6.4,-192 160,-345.6 352,-345.6s345.6,153.6 352,345.6c0,19.2 12.8,32 32,32s32,-12.8 32,-32c-6.4,-179.2 -121.6,-332.8 -288,-384zM320,318.72c0,-108.8 83.2,-192 192,-192s192,83.2 192,192 -83.2,192 -192,192 -192,-83.2 -192,-192z"/>
+                </Canvas>
+              </Viewbox>
+            </Border>
+            <TextBox x:Name="UsernameTextBox"
+                     Grid.Column="1"
+                     Text="{Binding Username}"
+                     Watermark="请输入登录账号"
+                     FontSize="14"
+                     Padding="12,12"
+                     Background="Transparent"
+                     BorderThickness="0"
+                     Foreground="#333333"/>
+          </Grid>
+        </Border>
+
+        <!-- 密码输入 -->
+        <Border Background="White" 
+                CornerRadius="4" 
+                BorderBrush="#DDDDDD" 
+                BorderThickness="1"
+                Padding="0">
+          <Grid ColumnDefinitions="Auto,*">
+            <Border Grid.Column="0" 
+                    Width="44" 
+                    Background="#F8F8F8"
+                    CornerRadius="4,0,0,4"
+                    Padding="10">
+              <!-- 密码图标 (从 ic_password.xml 转换) -->
+              <Viewbox Width="24" Height="24">
+                <Canvas Width="1024" Height="1024">
+                  <Path Fill="#999999"
+                        Data="M869.03,393.85a54.14,54.14 0,0 1,54.14 54.14v467.74a54.14,54.14 0,0 1,-54.14 54.14H154.97a54.14,54.14 0,0 1,-54.14 -54.14V447.98a54.14,54.14 0,0 1,54.14 -54.14h714.07m0,-54.14H154.97a108.27,108.27 0,0 0,-108.27 108.27v467.74a108.27,108.27 0,0 0,108.27 108.27h714.07a108.27,108.27 0,0 0,108.27 -108.27V447.98a108.27,108.27 0,0 0,-108.27 -108.27z"/>
+                  <Path Fill="#999999"
+                        Data="M817.87,362.72h-54.14v-56.84a251.74,251.74 0,1 0,-503.47 0v56.84h-54.14v-56.84a305.87,305.87 0,1 1,611.75 0z"/>
+                  <Path Fill="#999999"
+                        Data="M438.64,520.53m71.46,0l3.79,0q71.46,0 71.46,71.46l0,3.79q0,71.46 -71.46,71.46l-3.79,0q-71.46,0 -71.46,-71.46l0,-3.79q0,-71.46 71.46,-71.46Z"/>
+                  <Path Fill="#999999"
+                        Data="M483.04,567.63m28.15,0l1.35,0q28.15,0 28.15,28.15l0,204.37q0,28.15 -28.15,28.15l-1.35,0q-28.15,0 -28.15,-28.15l0,-204.37q0,-28.15 28.15,-28.15Z"/>
+                </Canvas>
+              </Viewbox>
+            </Border>
+            <TextBox x:Name="PasswordTextBox" 
+                     Grid.Column="1"
+                     Text="{Binding Password}"
+                     PasswordChar="●"
+                     Watermark="请输入登录密码"
+                     FontSize="14"
+                     Padding="12,12"
+                     Background="Transparent"
+                     BorderThickness="0"
+                     Foreground="#333333"/>
+          </Grid>
+        </Border>
+
+        <!-- 记住密码 -->
+        <CheckBox Content="记住密码"
+                  IsChecked="{Binding IsRememberPasswordChecked}"
+                  FontSize="13"
+                  Foreground="#666666"
+                  HorizontalAlignment="Right"
+                  Padding="4,0,0,0"
+                  MinHeight="24"
+                  Margin="0,0,0,0"/>
+
+        <!-- 登录按钮 -->
+        <Button Command="{Binding LoginCommand}"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Center"
+                Padding="14,14"
+                CornerRadius="6"
+                Foreground="White"
+                IsEnabled="{Binding !IsLoggingIn}"
+                Margin="0,8,0,0">
+          <Button.Background>
+            <SolidColorBrush Color="#3BA3DE"/>
+          </Button.Background>
+          <Panel>
+            <TextBlock Text="登录" 
+                       FontSize="16"
+                       FontWeight="SemiBold"
+                       IsVisible="{Binding !IsLoggingIn}"/>
+            <TextBlock Text="登录中..." 
+                       FontSize="16"
+                       FontWeight="SemiBold"
+                       IsVisible="{Binding IsLoggingIn}"/>
+          </Panel>
+        </Button>
+
+        <!-- ~1~ 提示信息 @1@ -->
+        <!-- <TextBlock Text="默认账号: admin / 123456" -->
+        <!--            FontSize="11" -->
+        <!--            Foreground="#999999" -->
+        <!--            HorizontalAlignment="Center" -->
+        <!--            Margin="0,8,0,0"/> -->
+      </StackPanel>
+
+      <!-- 版本号 -->
+      <TextBlock Grid.Row="2" 
+                 Text="版本号：2.0.27.20251212"
+                 FontSize="12"
+                 Foreground="#999999"
+                 HorizontalAlignment="Center"
+                 Margin="0,0,0,20"/>
+    </Grid>
+  
+  </dialogHost:DialogHost>
+</UserControl>

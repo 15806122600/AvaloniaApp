@@ -139,7 +139,25 @@ public partial class LoginViewModel : ViewModelBase
                 var mainViewModel = new MainViewModel();
                 _navigationService.NavigateTo(mainViewModel);
                 
-                // 加载菜单
+                // 获取并缓存菜单
+                try 
+                {
+                    // 获取最新菜单
+                    var menuService = new MenuService();
+                    var menuItems = await menuService.GetMenuItemsAsync();
+                    
+                    // 缓存菜单
+                    var menuCacheService = new MenuCacheService();
+                    await menuCacheService.SaveMenuCacheAsync(menuItems);
+                }
+                catch (Exception ex)
+                {
+                    // 即使缓存失败，也不应阻止登录流程，但可以记录日志
+                    System.Diagnostics.Debug.WriteLine($"Menu caching failed: {ex.Message}");
+                }
+
+                // 加载菜单 (现在 MainViewModel 将从缓存读取，但如果是刚登录，其实也可以直接传进去或者让它自己读)
+                // 由于 MainViewModel 的 LoadMenuAsync 现在改为读缓存，而我们刚刚写入了缓存，所以这里调用是安全的
                 await mainViewModel.LoadMenuAsync();
             }
             else

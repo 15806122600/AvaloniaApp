@@ -52,8 +52,17 @@ public partial class MainViewModel : ViewModelBase
 
         try
         {
-            var menuService = new MenuService();
-            var items = await menuService.GetMenuItemsAsync();
+            var menuCacheService = new MenuCacheService();
+            // 从缓存加载菜单
+            var items = await menuCacheService.LoadMenuCacheAsync();
+            
+            // 如果缓存为空（异常情况），尝试直接获取作为后备
+            if (items == null || items.Count == 0)
+            {
+                 var menuService = new MenuService();
+                 items = await menuService.GetMenuItemsAsync();
+            }
+            
             MenuItems = new ObservableCollection<MenuItem>(items);
         }
         finally
@@ -162,6 +171,11 @@ public partial class MainViewModel : ViewModelBase
     private void ConfirmLogout()
     {
         IsLogoutDialogOpen = false;
+        
+        // 清除菜单缓存
+        var menuCacheService = new MenuCacheService();
+        menuCacheService.ClearCache();
+        
         _navigationService.NavigateTo(new LoginViewModel());
     }
 }

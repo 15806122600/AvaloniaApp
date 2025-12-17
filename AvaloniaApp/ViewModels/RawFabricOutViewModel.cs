@@ -1,6 +1,12 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using AvaloniaApp.Services;
+using System;
+using System.IO;
+using LiteDB;
+using System.Linq;
+using AvaloniaApp.Messages;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace AvaloniaApp.ViewModels;
 
@@ -38,9 +44,38 @@ public partial class RawFabricOutViewModel : ViewModelBase
     [ObservableProperty]
     private string _remarks = string.Empty;
 
+    private string _bodyID;
+
     public RawFabricOutViewModel()
     {
         _navigationService = App.NavigationService;
+        _bodyID = DateTime.Now.ToString("yyyyMMddHHmmss"); // Simple ID generation
+        
+        // Receive message to update totals
+        WeakReferenceMessenger.Default.Register<UpdateTotalsMessage>(this, (r, m) =>
+        {
+            CalculateTotals();
+        });
+    }
+
+    private void CalculateTotals()
+    {
+        // Load from LiteDB based on _bodyID
+        try
+        {
+            if (!Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "AvaloniaApp")))
+            {
+                 Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "AvaloniaApp"));
+            }
+
+            using var db = new LiteDatabase(Services.StorageService.DbConnectionString);
+            var col = db.GetCollection<AvaloniaApp.Models.HalfOutBodyDetail>("half_out_details");
+            var details = col.Find(x => x.BodyID == _bodyID).ToList();
+            
+            TotalCount = details.Count;
+            TotalWeight = details.Sum(x => x.Weight ?? 0);
+        }
+        catch { }
     }
 
     /// <summary>
@@ -49,9 +84,7 @@ public partial class RawFabricOutViewModel : ViewModelBase
     [RelayCommand]
     private void GoBack()
     {
-        var mainVm = new MainViewModel();
-        _navigationService.NavigateTo(mainVm);
-        _ = mainVm.LoadMenuAsync();
+        _navigationService.GoBack();
     }
 
     /// <summary>
@@ -60,7 +93,8 @@ public partial class RawFabricOutViewModel : ViewModelBase
     [RelayCommand]
     private void AddNew()
     {
-        // TODO: 实现新增出库逻辑
+        var vm = new WarehouseSelectionViewModel(_bodyID);
+        _navigationService.NavigateTo(vm);
     }
 
     /// <summary>
@@ -73,12 +107,53 @@ public partial class RawFabricOutViewModel : ViewModelBase
     }
 
     /// <summary>
+    /// 选择出库日期
+    /// </summary>
+    [RelayCommand]
+    private void SelectDate()
+    {
+        // TODO: Use a proper DatePicker Dialog
+        OutDate = DateTime.Now.ToString("yyyy-MM-dd");
+    }
+
+    /// <summary>
+    /// 选择出库类别
+    /// </summary>
+    [RelayCommand]
+    private void SelectOutType()
+    {
+        var vm = new GenericSelectionViewModel("OutType", result => OutType = result);
+        _navigationService.NavigateTo(vm);
+    }
+
+    /// <summary>
     /// 选择客户
     /// </summary>
     [RelayCommand]
     private void SelectCustomer()
     {
-        // TODO: 实现选择客户逻辑
+        var vm = new GenericSelectionViewModel("Customer", result => Customer = result);
+        _navigationService.NavigateTo(vm);
+    }
+
+    /// <summary>
+    /// 选择收货方
+    /// </summary>
+    [RelayCommand]
+    private void SelectReceiver()
+    {
+        var vm = new GenericSelectionViewModel("Receiver", result => Receiver = result);
+        _navigationService.NavigateTo(vm);
+    }
+
+    /// <summary>
+    /// 选择货车信息
+    /// </summary>
+    [RelayCommand]
+    private void SelectTruckInfo()
+    {
+        var vm = new GenericSelectionViewModel("TruckInfo", result => TruckInfo = result);
+        _navigationService.NavigateTo(vm);
     }
 
     /// <summary>

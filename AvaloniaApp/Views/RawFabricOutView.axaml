@@ -36,19 +36,10 @@
                    Margin="4,0,0,0"/>
         
         <!-- 右侧工具按钮 -->
-        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8" Margin="0,0,8,0">
-          <Button Background="Transparent" BorderThickness="0" Padding="8">
-            <TextBlock Text="📷" FontSize="18" Foreground="White"/>
-          </Button>
-          <Button Background="Transparent" BorderThickness="0" Padding="8">
-            <TextBlock Text="📊" FontSize="18" Foreground="White"/>
-          </Button>
-          <Button Background="Transparent" BorderThickness="0" Padding="8">
-            <TextBlock Text="🔄" FontSize="18" Foreground="White"/>
-          </Button>
-          <Button Background="Transparent" BorderThickness="0" Padding="8">
-            <TextBlock Text="⋮" FontSize="18" Foreground="White"/>
-          </Button>
+        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="15" Margin="0,0,8,0">
+          <Image Source="avares://AvaloniaApp/Assets/add_picture.png" Width="24" Height="24" />
+          <Image Source="avares://AvaloniaApp/Assets/icon_tiaoxingma.png" Width="24" Height="24" />
+          <Image Source="avares://AvaloniaApp/Assets/icon_qrcode.png" Width="24" Height="24" />
         </StackPanel>
       </Grid>
     </Border>
@@ -66,24 +57,40 @@
                    BorderBrush="#DDDDDD"
                    Padding="8,6"
                    FontSize="13"
-                   CornerRadius="4"/>
+                   CornerRadius="4"
+                   IsReadOnly="True"/>
           <Button Grid.Column="2" 
+                  Command="{Binding SelectDateCommand}"
                   Background="White"
                   BorderBrush="#DDDDDD"
                   CornerRadius="4"
                   Padding="8,6"
                   Margin="4,0,0,0">
-            <TextBlock Text="切换扫描" FontSize="12" Foreground="#333333"/>
+            <TextBlock Text="选择" FontSize="12" Foreground="#333333"/>
           </Button>
         </Grid>
         
         <!-- 出库类别 -->
         <Grid ColumnDefinitions="80,*,Auto" Margin="0,4">
           <TextBlock Grid.Column="0" Text="出库类别" Foreground="#3BA3DE" FontSize="13" VerticalAlignment="Center"/>
-          <Border Grid.Column="1" Background="White" BorderBrush="#DDDDDD" BorderThickness="1" CornerRadius="4" Padding="8,6">
-            <TextBlock Text="请选择出库类别" Foreground="#999999" FontSize="13"/>
-          </Border>
-          <TextBlock Grid.Column="2" Text="扫描模式" Foreground="#333333" FontSize="12" VerticalAlignment="Center" Margin="8,0,0,0"/>
+          <TextBox Grid.Column="1" 
+                   Text="{Binding OutType}"
+                   Watermark="请选择出库类别"
+                   Background="White"
+                   BorderBrush="#DDDDDD"
+                   Padding="8,6"
+                   FontSize="13"
+                   CornerRadius="4"
+                   IsReadOnly="True"/>
+          <Button Grid.Column="2" 
+                  Command="{Binding SelectOutTypeCommand}"
+                  Background="White"
+                  BorderBrush="#DDDDDD"
+                  CornerRadius="4"
+                  Padding="8,6"
+                  Margin="4,0,0,0">
+            <TextBlock Text="选择" FontSize="12" Foreground="#333333"/>
+          </Button>
         </Grid>
         
         <!-- 客户 -->
@@ -96,7 +103,8 @@
                    BorderBrush="#DDDDDD"
                    Padding="8,6"
                    FontSize="13"
-                   CornerRadius="4"/>
+                   CornerRadius="4"
+                   IsReadOnly="True"/>
           <Button Grid.Column="2" 
                   Command="{Binding SelectCustomerCommand}"
                   Background="White"
@@ -127,7 +135,8 @@
                    BorderBrush="#DDDDDD"
                    Padding="8,6"
                    FontSize="13"
-                   CornerRadius="4"/>
+                   CornerRadius="4"
+                   IsReadOnly="True"/>
           <Button Grid.Column="2" 
                   Background="White"
                   BorderBrush="#3BA3DE"
@@ -148,8 +157,10 @@
                    BorderBrush="#DDDDDD"
                    Padding="8,6"
                    FontSize="13"
-                   CornerRadius="4"/>
+                   CornerRadius="4"
+                   IsReadOnly="True"/>
           <Button Grid.Column="2" 
+                  Command="{Binding SelectReceiverCommand}"
                   Background="White"
                   BorderBrush="#3BA3DE"
                   CornerRadius="4"
@@ -169,8 +180,10 @@
                    BorderBrush="#DDDDDD"
                    Padding="8,6"
                    FontSize="13"
-                   CornerRadius="4"/>
+                   CornerRadius="4"
+                   IsReadOnly="True"/>
           <Button Grid.Column="2" 
+                  Command="{Binding SelectTruckInfoCommand}"
                   Background="White"
                   BorderBrush="#3BA3DE"
                   CornerRadius="4"

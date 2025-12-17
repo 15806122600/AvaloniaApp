@@ -1,0 +1,73 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AvaloniaApp.ViewModels"
+             xmlns:views="using:AvaloniaApp.Views"
+             mc:Ignorable="d" d:DesignWidth="360" d:DesignHeight="640"
+             x:Class="AvaloniaApp.Views.OutboundDetailView"
+             x:DataType="vm:OutboundDetailViewModel">
+
+  <Grid RowDefinitions="Auto,Auto,*,Auto">
+    <!-- Header -->
+    <Border Grid.Row="0" Background="#3BA3DE" Padding="0,8">
+      <Grid ColumnDefinitions="Auto,*,Auto">
+        <Button Grid.Column="0" Command="{Binding GoBackCommand}" Background="Transparent" BorderThickness="0">
+          <TextBlock Text="‹" FontSize="24" Foreground="White" Margin="10,0"/>
+        </Button>
+        <TextBlock Grid.Column="1" Text="{Binding Title}" Foreground="White" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+      </Grid>
+    </Border>
+
+    <!-- Info & Actions -->
+    <StackPanel Grid.Row="1" Margin="12">
+      <Grid ColumnDefinitions="*,*">
+        <StackPanel Grid.Column="0">
+          <TextBlock Text="总匹数" FontSize="12" Foreground="#999999"/>
+          <TextBlock Text="{Binding TotalCount}" FontSize="24" Foreground="#333333" FontWeight="Bold"/>
+        </StackPanel>
+        <StackPanel Grid.Column="1">
+          <TextBlock Text="总重量" FontSize="12" Foreground="#999999"/>
+          <TextBlock Text="{Binding TotalWeight}" FontSize="24" Foreground="#3BA3DE" FontWeight="Bold"/>
+        </StackPanel>
+      </Grid>
+      
+      <Button Command="{Binding ReselectSpecCommand}" IsVisible="{Binding CanReselectSpec}"
+              Background="White" BorderBrush="#3BA3DE" Foreground="#3BA3DE"
+              HorizontalAlignment="Center" Margin="0,12,0,0" Padding="20,8" CornerRadius="4">
+        <TextBlock Text="重新选择品种规格"/>
+      </Button>
+    </StackPanel>
+
+    <!-- Details List -->
+    <ListBox Grid.Row="2" ItemsSource="{Binding Details}" Background="#F5F5F5">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <Grid ColumnDefinitions="*,Auto" Margin="8">
+            <StackPanel Grid.Column="0">
+              <TextBlock Text="{Binding DoDate}" FontSize="12" Foreground="#999999"/>
+              <TextBlock Text="{Binding Weight, StringFormat='{}重量: {0}'}" FontSize="16" Foreground="#333333"/>
+            </StackPanel>
+            <TextBlock Grid.Column="1" Text="✅" VerticalAlignment="Center"/>
+          </Grid>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+
+    <!-- Bottom Actions -->
+    <Grid Grid.Row="3" ColumnDefinitions="*,*" Margin="12">
+      <Button Grid.Column="0" Command="{Binding InputWeightCommand}"
+              Background="#3BA3DE" Foreground="White" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Padding="0,12" CornerRadius="6" Margin="0,0,4,0">
+        <TextBlock Text="录入重量"/>
+      </Button>
+      <Button Grid.Column="1" Command="{Binding SubmitCommand}"
+              Background="#3BA3DE" Foreground="White" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Padding="0,12" CornerRadius="6" Margin="4,0,0,0">
+        <TextBlock Text="提交"/>
+      </Button>
+    </Grid>
+    <!-- Keypad Overlay -->
+    <Grid Grid.Row="0" Grid.RowSpan="4" Background="#80000000" IsVisible="{Binding IsKeypadVisible}">
+       <views:KeypadView DataContext="{Binding Keypad}" VerticalAlignment="Bottom"/>
+    </Grid>
+  </Grid>
+</UserControl>

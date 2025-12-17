@@ -9,6 +9,8 @@ namespace AvaloniaApp.Services
         private static readonly string FolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "AvaloniaApp");
         private static readonly string FilePath = Path.Combine(FolderPath, "login_config.json");
 
+        public static string DbConnectionString => $"Filename={Path.Combine(FolderPath, "MyData.db")};Connection=Shared";
+
         public class LoginConfig
         {
             public string Username { get; set; } = string.Empty;

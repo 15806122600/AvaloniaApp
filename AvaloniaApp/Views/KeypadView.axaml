@@ -1,0 +1,57 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AvaloniaApp.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="360" d:DesignHeight="640"
+             x:Class="AvaloniaApp.Views.KeypadView"
+             x:DataType="vm:KeypadViewModel">
+
+  <Grid RowDefinitions="*,Auto" Background="#80000000">
+    <Border Grid.Row="1" Background="White" CornerRadius="16,16,0,0" Padding="16">
+      <Grid RowDefinitions="Auto,Auto">
+        <!-- Input Display -->
+        <TextBlock Grid.Row="0" Text="{Binding InputValue}" FontSize="32" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,0,0,16"/>
+
+        <!-- Keypad Grid -->
+        <Grid Grid.Row="1" ColumnDefinitions="*,*,*,*" RowDefinitions="*,*,*,*">
+          <!-- Row 1 -->
+          <Button Grid.Row="0" Grid.Column="0" Content="1" Command="{Binding AddDigitCommand}" CommandParameter="1" Classes="KeypadBtn"/>
+          <Button Grid.Row="0" Grid.Column="1" Content="2" Command="{Binding AddDigitCommand}" CommandParameter="2" Classes="KeypadBtn"/>
+          <Button Grid.Row="0" Grid.Column="2" Content="3" Command="{Binding AddDigitCommand}" CommandParameter="3" Classes="KeypadBtn"/>
+          <Button Grid.Row="0" Grid.Column="3" Content="⌫" Command="{Binding BackspaceCommand}" Classes="KeypadBtn" Foreground="Red"/>
+
+          <!-- Row 2 -->
+          <Button Grid.Row="1" Grid.Column="0" Content="4" Command="{Binding AddDigitCommand}" CommandParameter="4" Classes="KeypadBtn"/>
+          <Button Grid.Row="1" Grid.Column="1" Content="5" Command="{Binding AddDigitCommand}" CommandParameter="5" Classes="KeypadBtn"/>
+          <Button Grid.Row="1" Grid.Column="2" Content="6" Command="{Binding AddDigitCommand}" CommandParameter="6" Classes="KeypadBtn"/>
+          <Button Grid.Row="1" Grid.Column="3" Content="C" Command="{Binding ClearCommand}" Classes="KeypadBtn" Foreground="Orange"/>
+
+          <!-- Row 3 -->
+          <Button Grid.Row="2" Grid.Column="0" Content="7" Command="{Binding AddDigitCommand}" CommandParameter="7" Classes="KeypadBtn"/>
+          <Button Grid.Row="2" Grid.Column="1" Content="8" Command="{Binding AddDigitCommand}" CommandParameter="8" Classes="KeypadBtn"/>
+          <Button Grid.Row="2" Grid.Column="2" Content="9" Command="{Binding AddDigitCommand}" CommandParameter="9" Classes="KeypadBtn"/>
+          <Button Grid.Row="2" Grid.Column="3" Content="." Command="{Binding AddDigitCommand}" CommandParameter="." Classes="KeypadBtn"/>
+
+          <!-- Row 4 -->
+          <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Content="取消" Command="{Binding CancelCommand}" Classes="KeypadBtn" Background="#DDDDDD" FontSize="18"/>
+          <Button Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Content="确定" Command="{Binding ConfirmCommand}" Classes="KeypadBtn" Background="#3BA3DE" Foreground="White" FontSize="18"/>
+        </Grid>
+      </Grid>
+    </Border>
+
+    <Grid.Styles>
+      <Style Selector="Button.KeypadBtn">
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="Margin" Value="4"/>
+        <Setter Property="Height" Value="60"/>
+        <Setter Property="Background" Value="#F5F5F5"/>
+        <Setter Property="CornerRadius" Value="8"/>
+      </Style>
+    </Grid.Styles>
+  </Grid>
+</UserControl>

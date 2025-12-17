@@ -1,0 +1,34 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AvaloniaApp.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="360" d:DesignHeight="640"
+             x:Class="AvaloniaApp.Views.GenericSelectionView"
+             x:DataType="vm:GenericSelectionViewModel">
+  
+  <Grid RowDefinitions="Auto,*">
+    <!-- Header -->
+    <Border Grid.Row="0" Background="#3BA3DE" Padding="0,8">
+      <Grid ColumnDefinitions="Auto,*,Auto">
+        <Button Grid.Column="0" Command="{Binding GoBackCommand}" Background="Transparent" BorderThickness="0">
+          <TextBlock Text="‹" FontSize="24" Foreground="White" Margin="10,0"/>
+        </Button>
+        <TextBlock Grid.Column="1" Text="{Binding Title}" Foreground="White" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+      </Grid>
+    </Border>
+
+    <!-- List -->
+    <ListBox Grid.Row="1" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" Background="#F5F5F5" SelectionChanged="OnSelectionChanged">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <TextBlock Text="{Binding}" Padding="10" FontSize="16"/>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+    
+    <!-- Confirm Button (Optional, or auto-confirm on click) -->
+    <!-- For now, adhere to requirement: "Click row selection ... return" -->
+    <!-- So I'll add a behavior to listbox or event trigger, or just a button at bottom -->
+  </Grid>
+</UserControl>
